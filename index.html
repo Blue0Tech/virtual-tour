@@ -5,8 +5,9 @@
     <title>Virtual Tour</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
-
+    
     <script src="js/Tour.js"></script>
+    <script src="js/Expand.js"></script>
   </head>
   <body>
     <a-scene id="main-scene">
@@ -15,7 +16,7 @@
       <a-sky id="main-container" radius="5000" color="#98DAFC"></a-sky>
 
       <!-- Places Container -->
-      <a-entity id="places-container" tour></a-entity>
+      <a-entity id="places-container" tour expand></a-entity>
 
       <!-- CAMERA -->
       <a-camera id="camera" wasd-controls="enabled:false;">

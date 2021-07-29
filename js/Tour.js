@@ -1,6 +1,7 @@
 AFRAME.registerComponent("tour", {
   init: function () {
     this.placesContainer = this.el;
+    this.createCards();
     
   },
 
@@ -37,14 +38,57 @@ AFRAME.registerComponent("tour", {
       const position = { x: posX, y: posY, z: posZ };
       prevoiusXPosition = posX;
 
-      // Border Element
+      const borderEl = this.createBorder(position,item.id);
       
-      // Thumbnail Element
+      const TN = this.createThumbnailRef(item);
+      borderEl.appendChild(TN);
      
-      // Title Text Element
+      const titleEl = this.createTitle(position,item);
+      borderEl.appendChild(titleEl);
       
       this.placesContainer.appendChild(borderEl);
     }
   },
-  
+  createBorder: function(position,id) {
+    const entityElement = document.createElement('a-entity');
+    entityElement.setAttribute('id',id);
+    entityElement.setAttribute('position',position);
+    entityElement.setAttribute('visible',true);
+    entityElement.setAttribute('geometry',{
+      primitive:'ring',
+      radiusInner: 9,
+      radiusOuter: 10
+    });
+    entityElement.setAttribute('material',{
+      color: 'orange',
+      opacity: 0.7
+    });
+    return entityElement;
+  },
+  createThumbnailRef: function(item) {
+    const entityElement = document.createElement('a-entity');
+    entityElement.setAttribute('visible',true);
+    entityElement.setAttribute('geometry',{
+      primitive: 'circle',
+      radius: 9
+    });
+    entityElement.setAttribute('material',{
+      src: item.url
+    });
+    return entityElement;
+  },
+  createTitle: function(position,item) {
+    const entityElement = document.createElement('a-entity');
+    entityElement.setAttribute('text',{
+      font: 'exo2bold',
+      align: 'center',
+      width: 60,
+      color: 'red',
+      value: item.title
+    });
+    position.y-=25;
+    entityElement.setAttribute('position',position);
+    entityElement.setAttribute('visible',true);
+    return entityElement;
+  }
 });
