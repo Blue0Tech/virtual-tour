@@ -86,7 +86,7 @@ AFRAME.registerComponent("tour", {
       color: 'red',
       value: item.title
     });
-    position.y-=25;
+    position.y-=30;
     entityElement.setAttribute('position',position);
     entityElement.setAttribute('visible',true);
     return entityElement;
