@@ -1,21 +1,42 @@
 AFRAME.registerComponent('expand',{
     schema: {
         mouseIsInside: {type:'string',default:'none'},
-        ids: {type:'array',default:[]}
+        ids: {type:'array',default:[]},
+        selectedItemId : {type:'string',default:''}
+    },
+    handleClick: function() {
+        this.el.addEventListener('click',e=>{
+            const container = document.querySelector('#places-container');
+            const {state} = container.getAttribute('tour');
+            if(state=='places-list') {
+                const id = e.path[1].id;
+                console.log(id);
+                const ids = this.data.ids;
+                if(ids.includes(id)) {
+                    container.setAttribute('tour',{
+                        state: 'view',
+                        selectedCard: id
+                    });
+                }
+            }
+        });
     },
     init: function() {
         var children = this.el.children;
         for(child of children) {
             this.data.ids.push(child.id);
-        addEventListener('mouseenter',e=>{
-            if(e.path[1].id!='camera' && e.path[1].id!='places-container') {
-                this.data.mouseIsInside = e.path[1].id;
-            }
-        });
-        addEventListener('mouseleave',e=>{
-            this.data.mouseIsInside = 'none';
-            this.resetAll();
-        });
+        }
+        this.handleClick();
+        for(child of children) {
+            addEventListener('mouseenter',e=>{
+                if(e.path[1].id!='camera' && e.path[1].id!='places-container') {
+                    this.data.mouseIsInside = e.path[1].id;
+                }
+            });
+            addEventListener('mouseleave',e=>{
+                this.data.mouseIsInside = 'none';
+                this.resetAll();
+            });
         }
     },
     tick: function() {

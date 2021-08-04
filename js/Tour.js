@@ -4,7 +4,30 @@ AFRAME.registerComponent("tour", {
     this.createCards();
     
   },
-
+  schema: {
+    state: {type:'string',default:'places-list'},
+    selectedCard: {type:'string',default:'#card1'}
+  },
+  hideElement: function(elList) {
+    elList.map(el=>{
+      el.setAttribute('visible',false);
+    });
+  },
+  showView: function() {
+    const sky = document.querySelector('#main-container');
+    const {selectedCard} = this.data;
+    sky.setAttribute('material',{
+      src: `./assets/360_images/${selectedCard}/place-0.jpg`,
+      color: 'white'
+    });
+  },
+  tick: function() {
+    const {state} = this.el.getAttribute('tour');
+    if(state=='view') {
+      this.hideElement([this.placesContainer]);
+      this.showView();
+    }
+  },
   createCards: function () {
     const thumbNailsRef = [
       {
